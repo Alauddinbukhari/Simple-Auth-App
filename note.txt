@@ -1,0 +1,62 @@
+Main Application Flow
+
+Frontend (React)
+
+A simple homepage with two options: Login and Signup.
+
+Clicking either option navigates the user to the respective page:
+
+/login → Login form (email + password)
+
+/signup → Signup form (name, email, password)
+
+After a successful login or signup, the JWT token received from the backend is stored in localStorage or sessionStorage.
+
+On subsequent requests (like accessing a protected dashboard), the JWT token is sent in the Authorization header.
+
+Backend (Express + MongoDB + JWT)
+
+Signup Endpoint (/api/signup):
+
+Receives user details.
+
+Checks if the user already exists.
+
+Hashes the password.
+
+Creates a new user in MongoDB.
+
+Generates a JWT token containing user info (like ID/email).
+
+Sends the token back in the response.
+
+Login Endpoint (/api/login):
+
+Receives email and password.
+
+Finds the user and verifies the hashed password.
+
+If valid, generates a new JWT token.
+
+Sends token in response.
+
+Protected Routes:
+
+Use an authentication middleware that:
+
+Reads JWT from the Authorization header.
+
+Verifies it with your secret key.
+
+If valid → allows access.
+
+If invalid or missing → returns 401 Unauthorized.
+
+Client-Server Communication
+
+Frontend stores token → adds it to every request header:
+
+Authorization: Bearer <token>
+
+
+Backend verifies token before processing protected requests.
